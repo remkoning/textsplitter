@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Mech Turk Text Splitter</title>
+
+	<style type="text/css"><!--
+	p { margin-left: auto;
+     	margin-right: auto;
+    	width: 850px;
+    	font-family: Verdana;
+    	font-size: 14px;
+    	line-height: 1.5;
+    	letter-spacing: .4px;}
+
+	#container { position: relative; }
+	
+	#imageView { border: 1px solid #000; }
+	canvas { display:block; margin:1em auto; border:1px solid #D8D8D8;  box-shadow: 10px 10px 10px #D8D8D8;}
+	
+	img { display:block; margin:1em auto; border:1px solid #D8D8D8 ; opacity: 0.6;  box-shadow: 10px 10px 10px #D8D8D8 ;}
+    
+    canvas { background:url({{ image_url }}) }   
+    
+    body {background-color: #F8F8F8;}
+
+    input[type=text] {color:#B0B0B0; background-color:#F8F8F8;}
+	--></style>
+</head>
+<body>
+	<script type="text/javascript" src="javascript/turk_split_text.js"></script>
+
+	<p>Below is an example of the <u>{{ example_type }}</u> selection task. The complete instructions follow.</p>
+
+	<img src="{{ example_url }}" />
+
+	<p>
+	   <br>
+	   As in the example above please use your mouse to draw a rectangle around all the text that occurs just following the <u>{{ example_type }}</u> field in the document below.<br><br>
+
+	    Do not select any other text from any other field and please make sure that all the relevant text is inside the red outline.  Also do not select the title of the field itself. Again we only want you to select information pertaining to the <u>{{ example_type }}</u> field in the document below, nothing else. Your selection will be indicated by a yellow box with red edges, as in the example. Thanks, we have 100s of these taks for you to do!<br><br>
+
+	    If there is no <u>{{ example_type }}</u> field in the document please click the "missing" checkbox at the bottom of the page.
+
+	</p>
+
+	<!-- <p><span id = "mouseX0">0</span>, <span id = "mouseY0">0</span></p>
+	<p><span id = "mouseX1">0</span>, <span id = "mouseY1">0</span></p> -->
+	<div id="canvas-holder"></div>
+
+	<form action="http://www.mturk.com/mturk/externalSubmit" method="POST">
+		<!-- These fields get populated by the canvas javascript drawing function: -->
+		<input type="hidden" name="mouseX0" id="mouseX0" value=0>
+		<input type="hidden" name="mouseY0" id="mouseY0" value=0>
+		<input type="hidden" name="mouseX1" id="mouseX1" value=0>
+		<input type="hidden" name="mouseY1" id="mouseY1" value=0>
+
+		<p>
+		<input type="checkbox" name="nofield" value="NOFIELD"> Missing - There is no <u>{{ example_type }}</u> text in the document. <br>
+		<br>
+		<input type="checkbox" name="skewed" value="SKEWED"> Skewed Text - The text is there but I can't select the text because it is too slanted. <br>
+		<br>
+		<input type="text" name="comments" id="comments" value="If you encounter any problems please let us know here..." size="80">
+		<br>
+		<div align="center">
+			<input type="submit" name="submit" id="myButton" value="Submit Selection" />
+		</div>
+		</p>
+
+		<!-- This field gets populated by JavaScript when the page loads: -->
+     	<input type="hidden" name="assignmentId" id="myAssignmentId" value="" />
+   	</form>
+
+
+</body>
+</html>

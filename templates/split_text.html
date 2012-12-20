@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Text Selector</title>
+	<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+	<style type="text/css"><!--
+
+	#maincontainer {
+		width:1300px;
+		left-margin: 25;
+	}
+
+	#canvascontainer{
+		float:left;
+		width: 875px; /*Width of main container*/
+	}
+
+	#formcontainer{
+		float: right;
+		width: 425px; /
+	}
+
+	p { margin-left:  auto;
+     	margin-right: auto;
+    	width: 425px;
+    	font-family: Verdana;
+    	font-size: 10px;
+    	line-height: 1.5;
+    	letter-spacing: .4px;}
+
+	#imageView { border: 1px solid #000; }
+
+	canvas { display:block;
+			 margin:1em auto;
+			 border:1px solid #D8D8D8;
+			 box-shadow: 10px 10px 10px #D8D8D8;
+			 background:url(http://job-description-images-to-chunk.s3.amazonaws.com/images/{{ image_url }});}
+
+    body {background-color: #F8F8F8;}
+
+    input[type=submit] {width: 195px;}
+
+    input[type=text] {color:#B0B0B0;
+    				  border-style: solid;
+    				  border-width: 1px;
+    				  border-color: #B0B0B0;
+    				  background-color:#F8F8F8;}
+
+    	button {
+            padding: 8px 5px;
+            background: #4479BA;
+            color: #FFF !important;
+            -webkit-border-radius: 0px;
+            -moz-border-radius: 0px;
+            border-radius: 0px;
+            border: solid 2px #FFFFFF;
+            text-shadow: 0 0px 0 rgba(0, 0, 0, 0.4);
+            -webkit-box-shadow: inset 0 0px 0 rgba(255, 255, 255, 0.4), 0 0px 0px rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: inset 0 0px 0 rgba(255, 255, 255, 0.4), 0 0px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 0px 0 rgba(255, 255, 255, 0.4), 0 0px 0px rgba(0, 0, 0, 0.2);
+            -webkit-transition-duration: 0.2s;
+            -moz-transition-duration: 0.2s;
+            transition-duration: 0.2s;
+        }
+        button:hover {
+            background: #356094;
+            border: solid 2px #356094;
+            text-decoration: none;
+        }
+        button {
+            -webkit-user-select:none;
+            -moz-user-select:none;
+            -ms-user-select:none;
+            user-select:none;
+            cursor: pointer
+        }
+        button:active {
+            background: #2E5481;
+            border: solid 2px #2E5481;
+            -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.6);
+            -moz-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.6);
+            box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.6);
+        }
+
+	--></style>
+
+</head>
+<body>
+	<script type="text/javascript" src="javascript/turk_split_text.js"></script>
+
+	<div id="maincontainer">
+
+		<div id="canvascontainer">
+			<div id="canvas-holder"></div>
+		</div>
+
+		<div id="formcontainer">
+			<form name="myForm" method="POST">
+				<p>
+
+				<input type="hidden" name="workerid" value ="{{ worker_id }}">
+				<input type="hidden" name="mouseX0" id="mouseX0" size=5 value=0>
+				<input type="hidden" name="mouseY0" id="mouseY0" size=5 value=0>
+				<input type="hidden" name="mouseX1" id="mouseX1" size=5 value=0>
+				<input type="hidden" name="mouseY1" id="mouseY1" size=5 value=0>
+
+
+				Worker ID: <i>{{ worker_id }}</i> <br>
+				Current Document Number: <b>{{ image_num }}</b> <br>
+
+				__________________________________________________________________<br>
+				<i>Move between documents without submitting text</i>: <br>
+				<input type="submit" name="submit" value="Move to Document Number:" style="width: 195px;"/>
+				<input type="text" name="image_num" size=5 value="{{ image_num }}"><br>
+
+				<input type="submit" name="submit" value="Move Back a Document" />
+				<input type="submit" name="submit" value="Move Forward a Document" /><br><br>
+
+				__________________________________________________________________<br>
+				<i>The buttons below submit your text selection.  The buttons on left reload the document and the buttons on the right (underlined) move to the next document:</i><br><br>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<FONT COLOR="#000000">SAME DOCUMENT</FONT>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<u>NEXT DOCUMENT</u>
+				<br>
+
+				{% for f in big_fields %}
+					<button name="submit" value=":S:{{f}}" type="submit" style="font-size: inherit; width: 200px;">
+						{{f}}
+					</button>
+					<button name="submit" value=":N:{{f}}" type="submit" style="font-size: inherit; width: 200px">
+						<u>{{f}}</u>
+					</button>
+					<br>
+				{% endfor %}
+
+				__________________________________________________________________<br>
+				<i>Submit text under a new field name called:</i><br>
+					<input type="text"  name="newfield" size="70" value="">
+				<br>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<FONT COLOR="#000000">SAME DOCUMENT</FONT>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<u>NEXT DOCUMENT</u>
+				<br>
+
+				<button name="submit" value=":S:NEW FIELD" type="submit" style="font-size: inherit; color: #000066; width: 200px">
+					Add the new field and stay on page
+				</button>
+				<button name="submit" value=":N:NEW FIELD" type="submit" style="font-size: inherit; color: #780000; width: 200px">
+					<u>Add the new field and move to next</u>
+				</button>
+				<br><br>
+
+				__________________________________________________________________<br>
+				<i>Other less common field names to submit text under:</i><br>
+
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<FONT COLOR="#000000">SAME DOCUMENT</FONT>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<u>NEXT DOCUMENT</u>
+				<br>
+
+				{% for f in fields %}
+					<button name="submit" value=":S:{{f}}" type="submit" style="font-size: inherit; color: #000066; width: 200px">
+						{{f}}
+					</button>
+					<button name="submit" value=":N:{{f}}" type="submit" style="font-size: inherit; color: #780000; width: 200px">
+						<u>{{f}}</u>
+					</button>
+					<br>
+				{% endfor %}
+
+				<br>
+
+				__________________________________________________________________<br>
+				<i>If the selection is too difficult or can't be done:</i><br>
+				<button name="submit" value=":N:SKEW" type="submit" style="font-size: inherit">The text is too skewed or difficult to select. Move to next document.</button>
+				<br><br>
+
+				</p>
+
+		   	</form>
+	    </div>
+
+	</div>
+
+
+</body>
+</html>

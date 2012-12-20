@@ -1,0 +1,58 @@
+python_preamble:
+- import: base64
+- import: re
+- import: google.appengine.ext.bulkload.transform
+- import: google.appengine.ext.bulkload.bulkloader_wizard
+- import: google.appengine.ext.db
+- import: google.appengine.api.datastore
+- import: google.appengine.api.users
+
+transformers:
+
+- kind: Selection
+  connector: csv
+  connector_options:
+    encoding: utf-8
+    columns: from_header
+  property_map:
+    - property: __key__
+      external_name: key
+      export_transform: transform.key_id_or_name_as_string
+
+    - property: field
+      external_name: field
+
+    - property: image
+      external_name: image
+
+    - property: image_i
+      external_name: image_i
+      import_transform: transform.none_if_empty(int)
+
+    - property: mouse_x0
+      external_name: mouse_x0
+      import_transform: transform.none_if_empty(int)
+
+    - property: mouse_x1
+      external_name: mouse_x1
+      import_transform: transform.none_if_empty(int)
+
+    - property: mouse_y0
+      external_name: mouse_y0
+      import_transform: transform.none_if_empty(int)
+
+    - property: mouse_y1
+      external_name: mouse_y1
+      import_transform: transform.none_if_empty(int)
+
+    - property: sel_time
+      external_name: sel_time
+      import_transform: transform.import_date_time('%Y-%m-%dT%H:%M:%S')
+      export_transform: transform.export_date_time('%Y-%m-%dT%H:%M:%S')
+
+    - property: skew
+      external_name: skew
+      import_transform: transform.none_if_empty(int)
+
+    - property: workerid
+      external_name: workerid

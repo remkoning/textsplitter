@@ -1,0 +1,18 @@
+application: textsplitter
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+libraries:
+- name: jinja2
+  version: latest
+
+handlers:
+- url: /javascript
+  static_dir: javascript
+
+- url: /.*
+  script: textsplitter.app
+
+builtins:
+- remote_api: on
